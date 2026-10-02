@@ -2,6 +2,32 @@
 
 分兩步：先把 CSV 轉成網頁讀得到的檔案，再請 AI 做網頁。兩段 prompt 請在同一個 Claude Code 對話裡依序貼上。
 
+## 流程
+
+黃色是這一段要做的部分。
+
+```mermaid
+flowchart LR
+    raw["原始報表<br/>.xls / .pdf"]
+    std[("data/*.csv<br/>整理好的資料")]
+    build["work/build_data.py<br/>重新整理資料"]
+    js["docs/data.js<br/>報表用的資料"]
+    html["docs/index.html<br/>BI 網頁"]
+    pages(["GitHub Pages<br/>公開網址"])
+
+    raw -.->|"P1 清理"| std
+    std -->|"P2-1"| build --> js
+    js -->|"P2-2 網頁載入"| html
+    html -.->|"P3 push"| pages
+
+    classDef now fill:#fff3cd,stroke:#b8860b,stroke-width:2px,color:#333
+    classDef ref fill:#eef2f7,stroke:#6b7a94,color:#333
+    class build,js,html now
+    class raw,std,pages ref
+```
+
+`data/` 是原始資料，`docs/index.html` 是報表。`build_data.py` 負責把資料整理成報表讀得到的樣子（`docs/data.js`），之後資料更新時，重新執行它就好。
+
 ## P2-1 把資料送到網頁（約 3 分鐘）
 
 瀏覽器基於安全考量，直接雙擊打開的網頁不能讀取旁邊的 CSV 檔。所以先請 AI 把資料轉成網頁可以直接載入的檔案。
