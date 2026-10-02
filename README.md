@@ -53,7 +53,7 @@ docs/                    （你在 P2 做出來的網頁會放在這裡，GitHub
 |---|---|
 | semester, college, dept, dept_raw, degree, program_raw, gender | 同上 |
 | identity | 身份類別：一般生(非原住民族)、原住民族學生、其他類學生 |
-| reason | 休學原因（14 種自請休學原因 + 違反校規、其他（勒令）） |
+| reason | 休學原因（14 種自請休學原因 + 勒令休學的違反校規、其他；勒令休學的「其他」這 7 學期都是 0，所以不會出現） |
 | reason_group | 自請休學、勒令休學 |
 | new_leave | 學期間休學人數（這學期新辦休學） |
 | on_leave_end | 於學期底處於休學狀態之人數 |

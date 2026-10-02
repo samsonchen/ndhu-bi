@@ -1,32 +1,22 @@
 # P2 做出 BI 網頁（35 分鐘）
 
-分兩步：先把 CSV 轉成網頁讀得到的 `docs/data.js`，再請 AI 做網頁。
+分兩步：先把 CSV 轉成網頁讀得到的檔案，再請 AI 做網頁。兩段 prompt 請在同一個 Claude Code 對話裡依序貼上。
 
 ## P2-1 把資料送到網頁（約 3 分鐘）
 
+瀏覽器基於安全考量，直接雙擊打開的網頁不能讀取旁邊的 CSV 檔。所以先請 AI 把資料轉成網頁可以直接載入的檔案。
+
 ```text
-請用 Python + uv 寫 work/build_data.py，讀 data/enrollment.csv、data/leave.csv、data/dept_mapping.csv（這三個檔案有 BOM，請用 utf-8-sig 讀取），產出 docs/data.js，然後執行它。
+我想做一個 BI 網頁放在 docs/index.html，希望直接雙擊就能在瀏覽器打開，不用另外架伺服器。
+網頁要用的資料是 data/ 裡的三個 CSV：在學人數、休學人數、系所對照表。
 
-docs/data.js 的格式固定如下（陣列裡每一列的欄位順序依 fields）：
-
-window.NDHU_DATA = {
-  semesters: ["111-1", "111-2", ...],          // 由舊到新
-  depts: [{ dept, college, aliases: [...] }],  // 來自 dept_mapping.csv，aliases 拆成陣列
-  enrollment: {
-    fields: ["semester", "college", "dept", "degree", "gender", "count"],
-    rows: [[...], ...]
-  },
-  leave: {
-    fields: ["semester", "college", "dept", "degree", "gender", "reason", "reason_group", "new_leave", "on_leave_end"],
-    rows: [[...], ...]
-  }
-};
-
-- enrollment、leave 都先依 fields 裡除了人數以外的欄位加總
-- 輸出成精簡 JSON（不換行、不縮排），UTF-8
-- 用 uv 的 inline script metadata 宣告需要的套件
+請先用 Python + uv 寫一個程式 work/build_data.py，把這些資料整理成網頁可以直接載入的檔案 docs/data.js，然後執行它。
+- 只保留網頁會用到的欄位：學期、學院、系所、學位別、性別、休學原因、人數，並先加總，讓檔案小一點
+- 休學人數要保留「學期間休學」和「學期底休學狀態」兩種
+- 系所的舊名稱用系所對照表裡的 aliases 欄位，一起帶過去
 - 不要修改 data/ 裡的檔案
-- 完成後告訴我 enrollment 和 leave 各有幾列、檔案多大
+- 完成後核對：114-1 在學人數合計應該是 10035 人
+- 用幾句話告訴我：產生了哪個檔案、裡面有哪些資料、檔案多大
 ```
 
 ## P2-2 做網頁（約 30 分鐘）
@@ -35,7 +25,7 @@ window.NDHU_DATA = {
 /frontend-design 請做一個 BI 網頁，存成 docs/index.html（單一檔案）。
 
 技術：
-- 用 <script src="data.js"></script> 讀 window.NDHU_DATA，不要用 fetch，直接雙擊 index.html 就要能開
+- 資料用 P2-1 產生的 docs/data.js（程式在 work/build_data.py），直接雙擊 index.html 就要能開
 - 圖表用 ECharts，從這個網址載入：https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.1/echarts.min.js
 - ECharts 載入失敗時（例如沒有網路），頁面顯示一行提示
 - 本機檔案只用相對路徑
