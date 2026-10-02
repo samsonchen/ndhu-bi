@@ -3,14 +3,14 @@
 用 AI（Claude Code）把學校公開的統計報表，做成一個可以互動篩選的 BI 網頁，並用 GitHub Pages 對外發佈。
 
 - 資料範圍：國立東華大學 111 學年度上學期 至 114 學年度上學期，共 7 個學期
-- 資料性質：公開資料，原始檔與清理後的資料都放在這個 repo，歡迎直接取用
+- 資料性質：公開資料，原始檔與 ETL 後的資料都放在這個 repo，歡迎直接取用
 
 ## 課堂流程（90 分鐘）
 
 | 段 | 內容 | 時間 |
 |---|---|---|
 | [P0](prompts/P0-開始.md) | 用這個 template 建立自己的 repo，啟動 Claude Code | 10 分 |
-| [P1](prompts/P1-資料清理.md) | 請 AI 把一份 Excel 報表轉成整齊的 CSV，並驗證 | 12 分 |
+| [P1](prompts/P1-ETL.md) | 用 AI 做 ETL：把一份 Excel 報表轉成整齊的 CSV，並驗證 | 12 分 |
 | [P2](prompts/P2-做出BI網頁.md) | 請 AI 做出互動 BI 網頁 | 35 分 |
 | [P3](prompts/P3-發佈.md) | push 到 GitHub，開啟 GitHub Pages | 10 分 |
 | [作業](prompts/作業.md) | 沒做完的部分，以及延伸題 | — |
@@ -23,11 +23,11 @@
 東華大學統計資料/        原始檔（學校公告的 XLS 與 PDF，未經修改）
   在學人數統計表/        7 個學期的在學學生人數（.xls）
   休學人數統計表/        7 個學期的休學人數（.pdf）
-data/                    清理後的標準資料（CSV，UTF-8，可直接用 Excel 開）
+data/                    ETL 後的標準資料（CSV，UTF-8，可直接用 Excel 開）
   enrollment.csv         在學人數
   leave.csv              休學人數
   dept_mapping.csv       系所對照表
-scripts/validate.py      驗證你清理出來的資料是否和標準資料一致
+scripts/validate.py      驗證你 ETL 產出的資料是否和標準資料一致
 prompts/                 課堂 prompt
 docs/                    （你在 P2 做出來的網頁會放在這裡，GitHub Pages 從這裡發佈）
 ```

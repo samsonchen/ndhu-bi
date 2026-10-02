@@ -3,7 +3,7 @@
 # dependencies = ["pandas"]
 # ///
 """
-把你用 AI 清理出來的 114-1 資料，和 data/ 裡的標準資料比對。
+把你用 AI 做 ETL 產出的 114-1 資料，和 data/ 裡的標準資料比對。
 
 用法：
   uv run scripts/validate.py enrollment work/enrollment_114-1.csv   # 課堂 P1：在學人數

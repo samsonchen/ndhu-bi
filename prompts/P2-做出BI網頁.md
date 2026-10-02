@@ -15,7 +15,7 @@ flowchart LR
     html["docs/index.html<br/>BI 網頁"]
     pages(["GitHub Pages<br/>公開網址"])
 
-    raw -.->|"P1 清理"| std
+    raw -.->|"P1 ETL"| std
     std -->|"P2-1"| build --> js
     js -->|"P2-2 網頁載入"| html
     html -.->|"P3 push"| pages
